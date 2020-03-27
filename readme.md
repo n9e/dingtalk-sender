@@ -34,7 +34,7 @@ notify:
   p3: ["im"]
 ```
 
-在web后台添加用户 (此用户作为报警群虚拟用户，仅用来指定对应的钉钉群告警)，用户的im信息为钉钉群的token值。
+在web后台添加用户 (此用户作为报警群虚拟用户，仅用来指定对应的钉钉群告警)，用户的im字段为钉钉群的token值。
 
 Ps:dingtalk-sender.yaml配置文件支持自定义token值及指定通知对应需要通知对象，需要提供对应对象的手机号（此配置会覆盖web端配置的token值，不建议使用此配置）。
 
@@ -54,7 +54,7 @@ dingtalk:
 编译完成之后可以打个包扔到线上去跑，将二进制和配置文件打包即可：
 
 ```bash
-tar zcvf dingtalk-sender.tar.gz dingtalk-sender etc/dingtalk-sender.yml etc/wechat.tpl
+tar zcvf dingtalk-sender.tar.gz dingtalk-sender etc/dingtalk-sender.yml etc/dingtalk.tpl
 ```
 
 ## test
