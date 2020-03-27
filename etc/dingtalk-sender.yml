@@ -1,0 +1,28 @@
+---
+logger:
+  dir: "logs/dingtalk-sender"
+  level: "DEBUG"
+  keepHours: 24
+
+redis:
+  addr: "127.0.0.1:6379"
+  pass: ""
+  db: 0
+  idle: 5
+  timeout:
+    conn: 500
+    read: 3000
+    write: 3000
+
+# 这个配置不用动，worker是调用dingtalk的并发数
+consumer:
+  queue: "/n9e/sender/im"
+  worker: 10
+
+# dingtalk 仅支持发送钉钉群告警 建议不配置， 通过web端设置
+#dingtalk:
+#  token: "xxxx"
+#  mobiles:
+#    - "18500001111"
+
+
