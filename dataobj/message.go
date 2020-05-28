@@ -17,27 +17,38 @@ type Message struct {
 }
 
 type Event struct {
+	Id            int64        `json:"id"`
+	Sid           int64        `json:"sid"`
+	Sname         string       `json:"sname"`
+	NodePath      string       `json:"node_path"`
+	Endpoint      string       `json:"endpoint"`
+	EndpointAlias string       `json:"endpoint_alias"`
+	Priority      int          `json:"priority"`
+	EventType     string       `json:"event_type"` // alert|recovery
+	Category      int          `json:"category"`
+	Status        uint16       `json:"status"`
+	HashId        uint64       `json:"hashid"  xorm:"hashid"`
+	Etime         int64        `json:"etime"`
+	Value         string       `json:"value"`
+	Info          string       `json:"info"`
+	Created       time.Time    `json:"created" xorm:"created"`
+	Detail        string       `json:"detail"`
+	Users         string       `json:"users"`
+	Groups        string       `json:"groups"`
+	Nid           int64        `json:"nid"`
+	NeedUpgrade   int          `json:"need_upgrade"`
+	AlertUpgrade  string       `json:"alert_upgrade"`
+	RecvUser      []*RecvUser  `json:"Recv_user_objs"`
+}
+
+type RecvUser struct {
 	Id            int64     `json:"id"`
-	Sid           int64     `json:"sid"`
-	Sname         string    `json:"sname"`
-	NodePath      string    `json:"node_path"`
-	Endpoint      string    `json:"endpoint"`
-	EndpointAlias string    `json:"endpoint_alias"`
-	Priority      int       `json:"priority"`
-	EventType     string    `json:"event_type"` // alert|recovery
-	Category      int       `json:"category"`
-	Status        uint16    `json:"status"`
-	HashId        uint64    `json:"hashid"  xorm:"hashid"`
-	Etime         int64     `json:"etime"`
-	Value         string    `json:"value"`
-	Info          string    `json:"info"`
-	Created       time.Time `json:"created" xorm:"created"`
-	Detail        string    `json:"detail"`
-	Users         string    `json:"users"`
-	Groups        string    `json:"groups"`
-	Nid           int64     `json:"nid"`
-	NeedUpgrade   int       `json:"need_upgrade"`
-	AlertUpgrade  string    `json:"alert_upgrade"`
+	Username      string    `json:"username"`
+	Dispname      string    `json:"dispname"`
+	Phone         string    `json:"phone" xorm:"phone"`
+	Email         string    `json:"email"`
+	Im            string    `json:"im" xorm:"im"`
+	Is_root       int       `json:"is_root"`
 }
 
 type EventDetail struct {

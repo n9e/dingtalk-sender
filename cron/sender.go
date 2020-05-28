@@ -3,18 +3,17 @@ package cron
 import (
 	"bytes"
 	"fmt"
+	"github.com/toolkits/pkg/runner"
 	"path"
 	"strings"
 	"text/template"
 	"time"
 
-	"github.com/toolkits/pkg/logger"
-	"github.com/toolkits/pkg/runner"
-
 	"github.com/n9e/dingtalk-sender/config"
 	"github.com/n9e/dingtalk-sender/corp"
 	"github.com/n9e/dingtalk-sender/dataobj"
 	"github.com/n9e/dingtalk-sender/redisc"
+	"github.com/toolkits/pkg/logger"
 )
 
 var (
@@ -53,19 +52,20 @@ func sendDing(message *dataobj.Message) {
 	}()
 
 	content := genContent(message)
+	mobile := pasteMobile(message)
 
 	logger.Info("<-- hashid: %v -->", message.Event.HashId)
 	logger.Infof("hashid: %d: endpoint: %s, metric: %s, tags: %s", message.Event.HashId, message.ReadableEndpoint, strings.Join(message.Metrics, ","), message.ReadableTags)
 
 	if count := len(message.Tos); count > 0 {
 		for _, tk := range message.Tos {
-			err := dingClient.Send(tk, content)
+			err := dingClient.Send(tk, mobile, content)
 			if err != nil {
 				logger.Errorf("send to %s fail:  %v", message.Tos, err)
 			}
 		}
 	} else if dingClient.GetToken() != "" {
-		err := dingClient.Send(dingClient.GetToken(), content)
+		err := dingClient.Send(dingClient.GetToken(),mobile, content)
 		if err != nil {
 			logger.Errorf("send to %s fail: %v", message.Tos, err)
 		}
@@ -81,6 +81,15 @@ var ET = map[string]string{
 func parseEtime(etime int64) string {
 	t := time.Unix(etime, 0)
 	return t.Format("2006-01-02 15:04:05")
+}
+
+func pasteMobile(message *dataobj.Message) []string {
+	var MobilesStd []string
+	for _, v := range message.Event.RecvUser {
+		fmt.Printf("%s", v)
+		MobilesStd = append(MobilesStd, string(v.Phone))
+	}
+	return MobilesStd
 }
 
 func genContent(message *dataobj.Message) string {
