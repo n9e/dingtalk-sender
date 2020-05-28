@@ -49,9 +49,9 @@ func (c Client) GetToken() string {
 }
 
 // Send 发送信息
-func (c *Client) Send(token string, mobile []string, msg string) error {
+func (c *Client) Send(token, msg string) error {
 
-	postData := c.generateData(mobile, msg)
+	postData := c.generateData(msg)
 	if c.GetToken() != "" {
 		// 配置了token 说明采用配置文件的token
 		token = c.GetToken()
@@ -112,7 +112,7 @@ func encodeJSON(v interface{}) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-func (c *Client) generateData(mobile []string, msg string) interface{} {
+func (c *Client) generateData(msg string) interface{} {
 	postData := make(map[string]interface{})
 	postData["msgtype"] = "text"
 	sendContext := make(map[string]interface{})
@@ -122,8 +122,6 @@ func (c *Client) generateData(mobile []string, msg string) interface{} {
 	at := make(map[string]interface{})
 	if !c.IsAtAll && len(c.Mobiles) > 0 && c.token != "" {
 		at["atMobiles"] = c.Mobiles // 根据手机号@指定人
-	} else if len(mobile) > 0{
-		at["atMobiles"] = mobile // 根据手机号@指定人
 	} else {
 		c.IsAtAll = true
 	}
