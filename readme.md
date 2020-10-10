@@ -59,7 +59,8 @@ tar zcvf dingtalk-sender.tar.gz dingtalk-sender etc/dingtalk-sender.yml etc/ding
 
 ## test
 
-配置etc/dingtalk-sender.yml，相关配置修改好，我们先来测试一下是否好使， `./dingtalk-sender -t token`，token为钉钉群机器人的token值，程序会自动读取etc目录下的配置文件，发一个测试消息给钉钉群`token`
+配置etc/dingtalk-sender.yml，相关配置修改好，我们先来测试一下是否好使， `./dingtalk-sender -t token [关键词]`，token为钉钉群机器人的token值，程序会自动读取etc目录下的配置文件，发一个测试消息给钉钉群`token` ，如果机器人配置有自定义关键词触发 添加该关键词作为最后一个参数传入，否则提示 `ErrMsg = keywords not in content`
+
 
 ## run
 
